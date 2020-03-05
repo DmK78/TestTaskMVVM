@@ -8,12 +8,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dmk78.testtaskmvvm.R;
 import com.dmk78.testtaskmvvm.model.Quote;
 import com.dmk78.testtaskmvvm.quote_details.QuoteDetailsActivity;
 
 import java.util.List;
-
 
 public class QuotesListActivity extends AppCompatActivity {
     private QuotesAdapter adapter;
@@ -28,10 +28,11 @@ public class QuotesListActivity extends AppCompatActivity {
         viewModel.getListMutableLiveData().observe(this, new Observer<List<Quote>>() {
             @Override
             public void onChanged(List<Quote> quotes) {
-                adapter.addData(quotes);
+                if (quotes.size() == 0) {
+                    viewModel.setAllQuotesLoaded();
+                } else adapter.addData(quotes);
             }
         });
-        viewModel.getQuotesListFromNetwork();
     }
 
     private void setupAdapter() {
@@ -42,8 +43,10 @@ public class QuotesListActivity extends AppCompatActivity {
         adapter.initData(viewModel.getCashedQuotesList());
         adapter.setOnClickListener(quote -> startActivity(QuoteDetailsActivity.create(this, quote.id)));
         adapter.setOnReachOfEndListener(() -> {
-            //Toast.makeText(this, "Reach end", Toast.LENGTH_SHORT).show();
-            viewModel.onReachEndOfList();
+            if (!viewModel.isAllQuotesLoaded()) {
+                Toast.makeText(this, "Loading ...", Toast.LENGTH_SHORT).show();
+                viewModel.onReachEndOfList();
+            }
         });
     }
 }

@@ -15,37 +15,31 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-
 import com.dmk78.testtaskmvvm.R;
 import com.dmk78.testtaskmvvm.databinding.ActivityQuoteDetailsBinding;
 import com.dmk78.testtaskmvvm.model.Quote;
-import com.dmk78.testtaskmvvm.quotes_list.QuotesListViewModel;
 
 
 public class QuoteDetailsActivity extends AppCompatActivity {
     private static final String QUOTE_ID = "quote_id";
-    private QuoteDetailsViewModel viewModel;
     private ActivityQuoteDetailsBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(QuoteDetailsViewModel.class);
+        QuoteDetailsViewModel viewModel = new ViewModelProvider(this).get(QuoteDetailsViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_quote_details);
-        binding.setViewmodel(viewModel);
         viewModel.getQuoteMutableLiveData().observe(this, new Observer<Quote>() {
             @Override
             public void onChanged(Quote quote) {
                 renderView(quote);
             }
         });
-
         int id = getIntent().getIntExtra(QUOTE_ID, 0);
         viewModel.loadQuote(id);
     }
 
     public void renderView(Quote quote) {
-
         binding.tvQuoteDetCreated.setText(quote.getCreated());
         binding.tvQuoteDetText.setText(quote.text);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quote.tagList) {

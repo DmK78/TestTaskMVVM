@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.dmk78.testtaskmvvm.R;
 import com.dmk78.testtaskmvvm.model.Quote;
 
@@ -21,13 +20,11 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.QuotesHold
     private OnReachOfEndListener onReachOfEndListener;
     private OnQuotesClickListener onQuotesClickListener;
 
-
-
-    public void setOnClickListener(OnQuotesClickListener onQuotesClickListener) {
+    void setOnClickListener(OnQuotesClickListener onQuotesClickListener) {
         this.onQuotesClickListener = onQuotesClickListener;
     }
 
-    public void setOnReachOfEndListener(OnReachOfEndListener onReachOfEndListener) {
+    void setOnReachOfEndListener(OnReachOfEndListener onReachOfEndListener) {
         this.onReachOfEndListener = onReachOfEndListener;
     }
 
@@ -38,12 +35,12 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.QuotesHold
         return new QuotesHolder(view);
     }
 
-    public void addData(List<Quote> quotes) {
+    void addData(List<Quote> quotes) {
         this.quotes.addAll(quotes);
         notifyDataSetChanged();
     }
 
-    public void initData(List<Quote> quotes){
+    void initData(List<Quote> quotes){
         this.quotes = quotes;
     }
 

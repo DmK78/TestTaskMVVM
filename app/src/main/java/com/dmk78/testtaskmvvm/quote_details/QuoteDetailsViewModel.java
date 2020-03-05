@@ -15,24 +15,17 @@ import javax.inject.Inject;
 public class QuoteDetailsViewModel extends AndroidViewModel {
     @Inject
     NetworkService networkService;
-    private Quote quote;
     private MutableLiveData<Quote> quoteMutableLiveData = new MutableLiveData<>();
     public QuoteDetailsViewModel(@NonNull Application application) {
         super(application);
         App.getComponent().injectTo(this);
-
     }
 
-    public void setQuote(Quote quote) {
-        this.quote = quote;
-    }
-
-    public void loadQuote(int id) {
+    void loadQuote(int id) {
         networkService.getQuote(id,quoteMutableLiveData);
-
     }
 
-    public MutableLiveData<Quote> getQuoteMutableLiveData() {
+    MutableLiveData<Quote> getQuoteMutableLiveData() {
         return quoteMutableLiveData;
     }
 }

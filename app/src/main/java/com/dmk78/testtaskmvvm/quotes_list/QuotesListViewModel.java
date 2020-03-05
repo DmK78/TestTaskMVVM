@@ -26,26 +26,32 @@ public class QuotesListViewModel extends AndroidViewModel {
     public QuotesListViewModel(@NonNull Application application) {
         super(application);
         App.getComponent().injectTo(this);
-
+        networkService.getQuotesList(10,offset,listMutableLiveData);
     }
-    public void getQuotesListFromNetwork(){
-        if (!isAllQuotesLoaded || this.quotes.size()==0) {
+
+    private void getQuotesListFromNetwork(){
             networkService.getQuotesList(10, offset,listMutableLiveData);
-        } else listMutableLiveData.postValue(this.quotes);
-
     }
-    public List<Quote> getCashedQuotesList(){
+    List<Quote> getCashedQuotesList(){
         return this.quotes;
     }
 
-    public MutableLiveData<List<Quote>> getListMutableLiveData() {
+    MutableLiveData<List<Quote>> getListMutableLiveData() {
         return listMutableLiveData;
     }
 
-    public void onReachEndOfList() {
+    void onReachEndOfList() {
         if (!isAllQuotesLoaded) {
             this.offset += 10;
             getQuotesListFromNetwork();
         }
+    }
+
+    boolean isAllQuotesLoaded() {
+        return isAllQuotesLoaded;
+    }
+
+    void setAllQuotesLoaded() {
+        isAllQuotesLoaded = true;
     }
 }
