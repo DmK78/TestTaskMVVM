@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Test Task</string>
+    <string name="quote">Quote:</string>
+    <string name="textview">TextView</string>
+    <string name="created">created:</string>
+    <string name="tags">Tags:</string>
+</resources>
